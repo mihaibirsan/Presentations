@@ -1,7 +1,7 @@
 
 // load content
 (function ($) {
-    $.get('_content.html', function (data) {
+    $.get('content.html', function (data) {
         $(document.body).append(data);
         var $steps = $('.step');
 
