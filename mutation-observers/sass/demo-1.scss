@@ -1,0 +1,62 @@
+﻿@import "compass/reset";
+@import "compass";
+
+body {
+    background: transparent;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+ul#deck {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    font-size: 0;
+    padding-left: 50px;
+    padding-right: 200px;
+    box-sizing: border-box;
+
+    > li {
+        display: inline-block;
+        width: 10%;
+        position: relative;
+
+        > img {
+            position: absolute; left: 0; top: 0;
+            border-radius: 10px;
+            width: 200px;
+            @include transition(all .5s ease-in-out);
+            @include transform(translate(0, 20px) rotate(-9deg));
+        }
+
+        &.picked > img {
+            margin-top: 550px;
+        }
+        &.after-oldspot {
+            margin-left: -10%;
+            @include transition(all .5s ease-in-out);
+        }
+        &.after-newspot {
+            margin-left: 10%;
+            @include transition(all .5s ease-in-out);
+        }
+    }
+}
+
+#toolbar {
+    margin-bottom: 20px;
+
+    fieldset, legend {
+        display: inline;
+        background: white;
+        border-radius: 5px;
+    }
+    fieldset {
+        border: 1px solid gray;
+        padding: 0 10px 5px;
+    }
+    legend {
+        margin-left: 10px;
+        padding: 3px 5px 0 3px;
+    }
+}

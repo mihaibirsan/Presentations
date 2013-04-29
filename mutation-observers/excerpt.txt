@@ -1,0 +1,12 @@
+﻿Mutation Observers in JavaScript
+or "How the DOM can be your model"
+
+The community of Web Developers is leaning towards developing more and more Rich Internet Applications (or one-page applications) written in JavaScript, and while this is a good thing, we're starting to miss the times when we could hack our favorite apps to add functionality that suited our needs or fix some caveats. (Remember Greasemonkey?)
+
+With applications being written completely in one page, we can no longer rely on the DOM Load event to hook our code and our awesomeness. But with well written applications, those that follow the HTML5 standards, we can begin to rely on new events. 
+
+We'll look at the topic from two perspectives: that of the hacker and that of the developer.
+
+With Mutaion Observers the DOM itself becomes the model for our application (or... leech application, for now). Now we can build improvements on top of other people's applications by listening to how the host is changing the DOM.
+
+As a developer, we need to design our applications to be hackable. Instead of hiding all of our business-relevant data in JavaScript objects, we should expose as much as possible in the DOM.

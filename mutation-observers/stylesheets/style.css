@@ -1,0 +1,133 @@
+@charset "UTF-8";
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font: inherit; font-size: 100%; vertical-align: baseline; }
+
+html { line-height: 1; }
+
+ol, ul { list-style: none; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+
+caption, th, td { text-align: left; font-weight: normal; vertical-align: middle; }
+
+q, blockquote { quotes: none; }
+q:before, q:after, blockquote:before, blockquote:after { content: ""; content: none; }
+
+a img { border: none; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary { display: block; }
+
+body { background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #f2f5f6), color-stop(37%, #e3eaed), color-stop(100%, #c8d7dc)); background: -webkit-linear-gradient(top, #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%); background: -moz-linear-gradient(top, #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%); background: -o-linear-gradient(top, #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%); background: linear-gradient(top, #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%); font-family: 'Montserrat', Arial, sans-serif; color: #222; }
+
+.for-notes-only { display: none; }
+
+.impress-supported .fallback-message { display: none; }
+
+code { font-family: "DejaVu Sans Mono"; }
+
+#debug { display: none; position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+
+#debug:after { content: ""; outline: 5px solid red; position: absolute; left: 50%; top: 50%; margin-left: -595px; margin-top: -395px; width: 1190px; height: 790px; }
+
+#debug:before { content: ""; outline: 3px solid blue; position: absolute; left: 50%; top: 50%; margin-left: -455px; margin-top: -230px; width: 910px; height: 460px; }
+
+/* The initial two slides are somewhat classic. */
+.slide { width: 1100px; height: 700px; text-align: center; font-size: 24px; }
+.slide h1 { font-size: 48px; }
+
+#title-and-author { height: auto; }
+#title-and-author h1 { font-size: 108px; font-weight: bold; margin-bottom: 36px; }
+#title-and-author p { font-size: 36px; }
+
+#codecamp { background: white; border: 0 solid white; border-width: 200px; width: 1200px; height: 800px; font-size: 0; }
+#codecamp img { display: block; margin: 0 auto; }
+#codecamp img.codecamp-logo { height: 60px; }
+#codecamp img.codecamp-sponsors { height: 730px; border: 2px solid black; border-radius: 50px; }
+
+/* Overview slides */
+#overview-1 { font-size: 96px; font-weight: bold; }
+
+/* Common styles for chapters (aka sections) */
+.chapter { position: relative; width: 50px; height: 50px; font-size: 24px; }
+.chapter h2 { width: 600px; font-size: 96px; font-weight: bold; line-height: 50px; color: #666; text-transform: uppercase; -webkit-transform-origin: 0 50%; -moz-transform-origin: 0 50%; -ms-transform-origin: 0 50%; -o-transform-origin: 0 50%; transform-origin: 0 50%; }
+.chapter h2:before { content: ""; display: block; vertical-align: bottom; width: 50px; height: 50px; border-radius: 30px; background: #999; }
+.chapter p { display: none; opacity: 0; margin-top: 25px; width: 700px; font-size: 48px; transition: opacity 0.667s ease-in-out; }
+.impress-on-overview .chapter p { opacity: 1; transition: opacity 0.667s ease-in-out; }
+.chapter.is-before p.recap { display: block; }
+.chapter.is-after p.teaser, .chapter.is-current p.teaser { display: block; }
+
+/* Particularities for the circle on the left */
+.chapter.left { text-align: left; }
+.chapter.left h2 { float: left; }
+.chapter.left h2:before { float: left; margin-right: 10px; }
+.chapter.left p { float: left; margin-left: 60px; }
+
+/* Particularities for the circle on the right */
+.chapter.right { text-align: right; }
+.chapter.right h2 { float: right; }
+.chapter.right h2:before { float: right; margin-left: 10px; }
+.chapter.right p { float: right; margin-right: 60px; }
+
+/* Particularities for the circle on the top */
+.chapter.top { text-align: center; }
+.chapter.top h2 { position: absolute; left: 50%; top: 0; margin-left: -300px; line-height: 100%; -webkit-transform-origin: 50% 0; -moz-transform-origin: 50% 0; -ms-transform-origin: 50% 0; -o-transform-origin: 50% 0; transform-origin: 50% 0; }
+.chapter.top h2:before { display: block; margin: 0 auto 10px; }
+
+/* Slide */
+.step-subslide { z-index: -900; width: 1060px; height: 530px; transition: all 0.3335s ease-in-out; }
+.step-subslide.is-before { margin-left: -500px; opacity: 0; }
+.step-subslide.is-current { margin-left: 0; opacity: 1; }
+.step-subslide.is-after { margin-left: 500px; opacity: 0; }
+.step-subslide h3 { font-size: 108px; line-height: 90%; margin-bottom: 24px; }
+.step-subslide ul { list-style: disc; padding-left: 1em; }
+.step-subslide ul, .step-subslide p { font-size: 54px; margin: 24px 0; }
+.step-subslide small { color: #999; }
+
+.step-focusslide { text-align: center; opacity: 0; transition: all 0.3335s ease-in-out; }
+.step-focusslide.active { opacity: 1; }
+.step-focusslide a { font-size: 144px; text-decoration: none; color: #003366; }
+.step-focusslide h3 { font-size: 48px; margin-bottom: 24px; }
+.step-focusslide pre { font-family: "DejaVu Sans Mono", mono; font-size: 24px; line-height: 30px; text-align: left; }
+.step-focusslide pre.prettyprint { border: none; }
+
+/* Browsers */
+#browsers img.browser-logo { width: 300px; margin-right: 30px; }
+
+.step-chapter-demo img { display: block; margin: 0 auto; }
+
+#q-n-a h2 { font-size: 144px; text-align: center; }
+
+#coming-next { white-space: nowrap; }
+#coming-next h2 { font-size: 72px; margin-bottom: 48px; }
+#coming-next .prez { position: relative; display: inline-block; border: 3px solid black; border-radius: 20px; font-size: 32px; padding: 5px 10px; width: 320px; min-height: 200px; white-space: normal; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #eeeeee), color-stop(100%, #cccccc)); background-image: -webkit-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background-image: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background-image: -o-linear-gradient(top, #eeeeee 0%, #cccccc 100%); background-image: linear-gradient(top, #eeeeee 0%, #cccccc 100%); }
+#coming-next .prez h3 { font-size: 48px; margin-bottom: 12px; }
+#coming-next .prez + .prez { margin-left: 140px; box-shadow: 0px 0px 50px 10px #FFFABC, 0px 0px 5px 2px black; }
+#coming-next .prez + .prez:before { content: "Γ₧¿"; position: absolute; right: 100%; top: 50%; font-size: 144px; line-height: 100px; margin-top: -50px; margin-right: 10px; }
+
+#overview-x { opacity: 0; transition: opacity 0.667s ease-in-out; text-align: center; font-size: 108px; width: 1200px; }
+#overview-x.is-current { opacity: 1; transition: opacity 0.667s ease-in-out; }
+
+#thank-you { width: 586.66667px; height: 880px; background: #fb0f25; color: white; font-size: 126px; text-transform: uppercase; text-align: center; }
+.impress-on-q-n-a #thank-you, .impress-on-overview #thank-you { display: none; }
+#thank-you span { display: block; }
+#thank-you .symbol { font-size: 216px; line-height: 180px; margin-bottom: 18px; }
+#thank-you .and { font-size: 24px; margin: 24px 0; }
+#thank-you .last { font-size: 90px; }
+
+/*  Hiding the first two slides before going into "the experience". */
+#title-and-author, #codecamp { display: none; }
+
+.impress-on-title-and-author #title-and-author, .impress-on-title-and-author #codecamp, .impress-on-codecamp #title-and-author, .impress-on-codecamp #codecamp, .impress-on-overview-1 #title-and-author, .impress-on-overview-1 #codecamp { display: block; }
+
+.impress-on-codecamp #codecamp { opacity: 1; transition: opacity 0.667s ease-in-out; }
+
+.impress-on-overview-1 #codecamp { opacity: 0; transition: opacity 0.667s ease-in-out; }
+
+/* Chapters */
+.chapter { opacity: 0; transition: opacity 0.667s ease-in-out; }
+
+.impress-on-overview #why, .impress-on-why #why, .impress-on-chapter-why #why, .impress-on-overview #what, .impress-on-what #what, .impress-on-chapter-what #what, .impress-on-overview #how, .impress-on-how #how, .impress-on-chapter-how #how, .impress-on-overview #when, .impress-on-when #when, .impress-on-chapter-when #when, .impress-on-overview #where, .impress-on-where #where, .impress-on-chapter-where #where, .impress-on-overview #who, .impress-on-who #who, .impress-on-chapter-who #who, .impress-on-overview #demo, .impress-on-demo #demo, .impress-on-chapter-demo #demo { opacity: 1; transition: opacity 0.667s ease-in-out; }
+
+#why h2, #what h2, #how h2, #when h2, #where h2, #who h2, #demo h2 { transition: all 0.667s ease-in-out; }
+
+.impress-on-chapter-why #why h2, .impress-on-chapter-what #what h2, .impress-on-chapter-how #how h2, .impress-on-chapter-when #when h2, .impress-on-chapter-where #where h2, .impress-on-chapter-who #who h2, .impress-on-chapter-demo #demo h2 { -webkit-transform: scale(0.5); -moz-transform: scale(0.5); -ms-transform: scale(0.5); -o-transform: scale(0.5); transform: scale(0.5); transition: all 0.667s ease-in-out; }

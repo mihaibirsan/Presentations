@@ -1,0 +1,30 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font: inherit; font-size: 100%; vertical-align: baseline; }
+
+html { line-height: 1; }
+
+ol, ul { list-style: none; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+
+caption, th, td { text-align: left; font-weight: normal; vertical-align: middle; }
+
+q, blockquote { quotes: none; }
+q:before, q:after, blockquote:before, blockquote:after { content: ""; content: none; }
+
+a img { border: none; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary { display: block; }
+
+body { background: transparent; overflow: hidden; font-family: sans-serif; }
+
+ul#deck { position: relative; width: 100%; height: 300px; font-size: 0; padding-left: 50px; padding-right: 200px; box-sizing: border-box; }
+ul#deck > li { display: inline-block; width: 10%; position: relative; }
+ul#deck > li > img { position: absolute; left: 0; top: 0; border-radius: 10px; width: 200px; -webkit-transition: all 0.5s ease-in-out; -moz-transition: all 0.5s ease-in-out; -o-transition: all 0.5s ease-in-out; transition: all 0.5s ease-in-out; -webkit-transform: translate(0, 20px) rotate(-9deg); -moz-transform: translate(0, 20px) rotate(-9deg); -ms-transform: translate(0, 20px) rotate(-9deg); -o-transform: translate(0, 20px) rotate(-9deg); transform: translate(0, 20px) rotate(-9deg); }
+ul#deck > li.picked > img { margin-top: 550px; }
+ul#deck > li.after-oldspot { margin-left: -10%; -webkit-transition: all 0.5s ease-in-out; -moz-transition: all 0.5s ease-in-out; -o-transition: all 0.5s ease-in-out; transition: all 0.5s ease-in-out; }
+ul#deck > li.after-newspot { margin-left: 10%; -webkit-transition: all 0.5s ease-in-out; -moz-transition: all 0.5s ease-in-out; -o-transition: all 0.5s ease-in-out; transition: all 0.5s ease-in-out; }
+
+#toolbar { margin-bottom: 20px; }
+#toolbar fieldset, #toolbar legend { display: inline; background: white; border-radius: 5px; }
+#toolbar fieldset { border: 1px solid gray; padding: 0 10px 5px; }
+#toolbar legend { margin-left: 10px; padding: 3px 5px 0 3px; }

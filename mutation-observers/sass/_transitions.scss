@@ -1,0 +1,60 @@
+/* 
+ * Hiding the first two slides before going into "the experience".
+ */
+#title-and-author,
+#codecamp {
+    display: none;
+}
+.impress-on-title-and-author,
+.impress-on-codecamp,
+.impress-on-overview-1 {
+    #title-and-author,
+    #codecamp {
+        display: block;
+    }
+}
+.impress-on-codecamp #codecamp {
+    opacity: 1;
+    transition: opacity $transition-duration $transition-easing;
+}
+.impress-on-overview-1 #codecamp {
+    opacity: 0;
+    transition: opacity $transition-duration $transition-easing;
+}
+
+/*
+ * Chapters
+ */
+.chapter {
+    opacity: 0;
+    transition: opacity $transition-duration $transition-easing;
+}
+%visible-chapter {
+    opacity: 1;
+    transition: opacity $transition-duration $transition-easing;
+}
+%chapter-h2 {
+    transition: all $transition-duration $transition-easing;
+}
+%chapter-h2-smaller {
+    @include transform(scale(.5));
+    transition: all $transition-duration $transition-easing;
+}
+
+@each $chapter in why, what, how, when, where, who, demo {
+    .impress-on-overview,
+    .impress-on-#{$chapter},
+    .impress-on-chapter-#{$chapter} {
+        ##{$chapter} {
+            @extend %visible-chapter;
+        }
+    }
+    ##{$chapter} h2 {
+        @extend %chapter-h2;
+    }
+    .impress-on-chapter-#{$chapter} {
+        ##{$chapter} h2 {
+            @extend %chapter-h2-smaller;
+        }
+    }
+}

@@ -1,0 +1,52 @@
+﻿@import "compass/reset";
+@import "compass";
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+$transition-duration: .667s;
+$transition-easing: ease-in-out;
+
+body {
+    @include background(linear-gradient(top,  rgba(242,245,246,1) 0%, rgba(227,234,237,1) 37%, rgba(200,215,220,1) 100%));
+
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #222;
+}
+
+.for-notes-only {
+    display: none;
+}
+
+.impress-supported .fallback-message {
+    display: none;
+}
+
+code {
+    font-family: "DejaVu Sans Mono";
+}
+
+#debug {
+    display: none;
+    position: absolute; left: 50%; top: 50%;
+    width: 0; height: 0;
+}
+#debug:after {
+    content: "";
+    $w: 1190px; $h: 790px;
+    outline: 5px solid red;
+    position: absolute; left: 50%; top: 50%;
+    margin-left: (-$w / 2);
+    margin-top: (-$h / 2);
+    width: $w; height: $h;
+}
+#debug:before {
+    content: "";
+    $w: 910px; $h: 460px;
+    outline: 3px solid blue;
+    position: absolute; left: 50%; top: 50%;
+    margin-left: (-$w / 2);
+    margin-top: (-$h / 2);
+    width: $w; height: $h;
+}
+
+@import "_slides";
+@import "_transitions";

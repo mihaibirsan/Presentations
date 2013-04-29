@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<title>Comparison by example</title>
+<link rel="stylesheet" type="text/css" href="stylesheets/demo-1.css" />
+
+<form id="toolbar">
+    <button id="once">Once</button>
+    <button id="shuffle">Shuffle</button>
+    <fieldset>
+        <legend>Observing</legend>
+        <label>
+            <input type="radio" name="reporting" value="none" checked /> None
+        </label>
+        <label>
+            <input type="radio" name="reporting" value="mutationevents" /> Mutation Events
+        </label>
+        <label>
+            <input type="radio" name="reporting" value="mutationobserver" /> Mutation Observer
+        </label>
+        <label>
+            <input type="radio" name="reporting" value="mutationsummary" /> Mutation Summary
+        </label>
+    </fieldset>
+</form>
+
+<ul id="deck">
+    <li><img src="assets/cards/0g0viseo9e_EN.jpg" alt="" /></li>
+    <li><img src="assets/cards/5xije0qt5p_EN.jpg" alt="" /></li>
+    <li><img src="assets/cards/7uyt66c4fo_EN.jpg" alt="" /></li>
+    <li><img src="assets/cards/c2o26fe2w5_EN.jpg" alt="" /></li>
+    <li><img src="assets/cards/d5muye3d7a_EN.jpg" alt="" /></li>
+    <li><img src="assets/cards/hnnrutsyhl_EN.jpg" alt="" /></li>
+    <li><img src="assets/cards/lr7wuf741i_EN.jpg" alt="" /></li>
+    <li><img src="assets/cards/pwnx7gvean_EN.jpg" alt="" /></li>
+    <li><img src="assets/cards/tjl46adywr_EN.jpg" alt="" /></li>
+    <li><img src="assets/cards/umkvddtl19_EN.jpg" alt="" /></li>
+</ul>
+
+<script src="javascripts/jquery-1.9.1.min.js"></script>
+<script src="javascripts/underscore.js"></script>
+<script src="javascripts/mutation_summary.js"></script>
+<script type="text/javascript">
+    var deck = document.querySelector('#deck');
+
+    function once() {
+        // pick a card, any card
+        var i = Math.floor(Math.random() * deck.children.length);
+
+        // pick a new position for the card
+        var j = i;
+        while (j == i) {
+            j = Math.floor(Math.random() * deck.children.length);
+        }
+        if (i < j) j += 1;
+
+        var card = deck.children[i];
+        var afterNewspot = deck.children[j];
+
+        // supporting CSS for animations
+        card.classList.add("picked");
+        if (card.nextElementSibling) {
+            card.nextElementSibling.classList.add("after-oldspot");
+        }
+        if (afterNewspot) {
+            afterNewspot.classList.add("after-newspot");
+        }
+
+        // remove it
+        _(function () {
+            if (card.nextElementSibling) {
+                card.nextElementSibling.classList.remove("after-oldspot");
+            }
+            card.remove();
+        }).delay(600);
+
+        // insert it
+        _(function () {
+            if (afterNewspot) {
+                afterNewspot.classList.remove("after-newspot");
+            }
+            deck.insertBefore(card, afterNewspot);
+        }).delay(700);
+
+        _(function () {
+            card.classList.remove("picked");
+        }).delay(800);
+    }
+
+    function shuffle() {
+        _(1000).times(function () {
+
+            // pick a card, any card
+            var i = Math.floor(Math.random() * deck.children.length);
+            var card = deck.children[i];
+            card.remove();
+
+            // pick a new position for the card and insert it
+            i = Math.floor(Math.random() * (deck.children.length + 1));
+            deck.insertBefore(card, deck.children[i]);
+        });
+    }
+
+    function callback() {
+        console.log('callback', arguments);
+    }
+
+    var observer = new MutationObserver(callback);
+
+    var summary = new MutationSummary({
+        callback: callback,
+        rootNode: deck,
+        queries: [
+            { all: true }
+        ]
+    });
+    summary.disconnect();
+
+    var observers = {
+        none: {
+            setup: function () { },
+            teardown: function () { }
+        },
+        mutationevents: {
+            setup: function () {
+                deck.addEventListener('DOMNodeInserted', callback, false);
+                deck.addEventListener('DOMNodeRemoved', callback, false);
+            },
+            teardown: function () {
+                deck.removeEventListener('DOMNodeInserted', callback, false);
+                deck.removeEventListener('DOMNodeRemoved', callback, false);
+            }
+        },
+        mutationobserver: {
+            setup: function () {
+                observer.observe(deck, { childList: true });
+            },
+            teardown: function () {
+                observer.disconnect();
+            }
+        },
+        mutationsummary: {
+            setup: function () {
+                summary.reconnect();
+            },
+            teardown: function () {
+                try {
+                    summary.disconnect();
+                } catch (e) {}
+            }
+        }
+    };
+
+    document.querySelector('#once').addEventListener('click', function (event) {
+        event.preventDefault();
+        once();
+    }, false);
+
+    document.querySelector('#shuffle').addEventListener('click', function (event) {
+        event.preventDefault();
+        shuffle();
+    }, false);
+
+    $('#toolbar input[type=radio]').change(function () {
+        _(observers).each(function (value, key) {
+            value.teardown();
+        });
+        console.groupEnd();
+        console.group(event.target.value);
+        observers[event.target.value].setup();
+    });
+</script>

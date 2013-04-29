@@ -1,0 +1,354 @@
+/*
+ * The initial two slides are somewhat classic.
+ */
+.slide {
+    width: 1100px;
+    height: 700px;
+
+    text-align: center;
+    font-size: 24px;
+
+    h1 {
+        font-size: 48px;
+    }
+}
+
+#title-and-author {
+    height: auto;
+
+    h1 {
+        font-size: 108px;
+        font-weight: bold;
+        margin-bottom: 36px;
+    }
+
+    p {
+        font-size: 36px;
+    }
+}
+
+#codecamp {
+    background: white;
+    border: 0 solid white;
+    border-width: 200px;
+    width: 1200px;
+    height: 800px;
+    font-size: 0;
+
+    img {
+        display: block;
+        margin: 0 auto;
+
+        &.codecamp-logo {
+            height: 60px;
+        }
+
+        &.codecamp-sponsors {
+            height: 730px;
+            border: 2px solid black;
+            border-radius: 50px;
+        }
+    }
+}
+
+/*
+ * Overview slides
+ */
+#overview-1 {
+    font-size: 96px;
+    font-weight: bold;
+}
+
+
+/*
+ * Common styles for chapters (aka sections)
+ */
+.chapter {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+
+    h2 {
+        width: 600px;
+        font-size: 96px;
+        font-weight: bold;
+        line-height: 50px;
+        color: #666;
+        text-transform: uppercase;
+        @include transform-origin(0, 50%);
+    }
+
+    h2:before {
+        content: "";
+        display: block;
+        vertical-align: bottom;
+
+        width: 50px;
+        height: 50px;
+        border-radius: 30px;
+
+        background: #999;
+    }
+
+    p {
+        display: none;
+        opacity: 0;
+        margin-top: 25px;
+        width: 700px;
+        font-size: 48px;
+        transition: opacity $transition-duration $transition-easing;
+
+        .impress-on-overview & {
+            opacity: 1;
+            transition: opacity $transition-duration $transition-easing;
+        }
+    }
+
+    &.is-before p.recap {
+        display: block;
+    }
+
+    &.is-after p.teaser,
+    &.is-current p.teaser {
+        display: block;
+    }
+}
+
+
+/* Particularities for the circle on the left */
+.chapter.left {
+    text-align: left;
+    h2 {
+        float: left;
+    }
+    h2:before {
+        float: left;
+        margin-right: 10px;
+    }
+    p {
+        float: left;
+        margin-left: 60px;
+    }
+}
+
+
+/* Particularities for the circle on the right */
+.chapter.right {
+    text-align: right;
+    h2 {
+        float: right;
+    }
+    h2:before {
+        float: right;
+        margin-left: 10px;
+    }
+    p {
+        float: right;
+        margin-right: 60px;
+    }
+}
+
+
+/* Particularities for the circle on the top */
+.chapter.top {
+    text-align: center;
+    h2 {
+        position: absolute; left: 50%; top: 0;
+        margin-left: -300px;
+        line-height: 100%;
+        @include transform-origin(50%, 0);
+    }
+    h2:before {
+        display: block;
+        margin: 0 auto 10px;
+    }
+}
+
+
+/* Slide
+ */
+.step-subslide {
+    z-index: -900;
+    width: 1060px;
+    height: 530px;
+    transition: all $transition-duration/2 $transition-easing;
+
+    &.is-before {
+        margin-left: -500px;
+        opacity: 0;
+    }
+
+    &.is-current {
+        margin-left: 0;
+        opacity: 1;
+    }
+
+    &.is-after {
+        margin-left: 500px;
+        opacity: 0;
+    }
+
+    h3 {
+        font-size: 108px;
+        line-height: 90%;
+        margin-bottom: 24px;
+    }
+
+    ul {
+        list-style: disc;
+        padding-left: 1em;
+    }
+
+    ul,
+    p {
+        font-size: 54px;
+        margin: 24px 0;
+    }
+
+    small {
+        color: #999;
+    }
+}
+
+.step-focusslide {
+    text-align: center;
+    opacity: 0;
+    transition: all $transition-duration/2 $transition-easing;
+
+    &.active {
+        opacity: 1;
+    }
+
+    a {
+        font-size: 144px;
+        text-decoration: none;
+        color: #003366;
+    }
+
+    h3 {
+        font-size: 48px;
+        margin-bottom: 24px;
+    }
+
+    pre {
+        font-family: "DejaVu Sans Mono", mono;
+        font-size: 24px;
+        line-height: 30px;
+        text-align: left;
+    }
+    pre.prettyprint {
+        border: none;
+    }
+}
+
+/* Browsers
+ */
+#browsers img.browser-logo {
+    width: 300px;
+    margin-right: 30px;
+}
+
+
+.step-chapter-demo img {
+    display: block;
+    margin: 0 auto;
+}
+
+
+#q-n-a h2 {
+    font-size: 144px;
+    text-align: center;
+}
+
+
+#coming-next {
+    white-space: nowrap;
+
+    h2 {
+        font-size: 72px;
+        margin-bottom: 48px;
+    }
+
+    .prez {
+        position: relative;
+        display: inline-block;
+        border: 3px solid black;
+        border-radius: 20px;
+        font-size: 32px;
+        padding: 5px 10px;
+        width: 320px;
+        min-height: 200px;
+        white-space: normal;
+        @include background-image(linear-gradient(top, #eeeeee 0%,#cccccc 100%));
+
+        h3 {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        + .prez {
+            margin-left: 140px;
+            box-shadow: 0px 0px 50px 10px #FFFABC, 0px 0px 5px 2px black;
+
+            &:before {
+                content: "➨";
+                position: absolute; right: 100%; top: 50%;
+                font-size: 144px;
+                line-height: 100px;
+                margin-top: -50px;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+
+#overview-x {
+    opacity: 0;
+    transition: opacity $transition-duration $transition-easing;
+    text-align: center;
+    font-size: 108px;
+    width: 1200px;
+
+    &.is-current {
+        opacity: 1;
+        transition: opacity $transition-duration $transition-easing;
+    }
+}
+
+
+#thank-you {
+    $w: 880px;
+    width: $w * 2 / 3;
+    height: $w;
+    background: rgb(251, 15, 37);
+    color: white;
+    font-size: 126px;
+    text-transform: uppercase;
+    text-align: center;
+
+    .impress-on-q-n-a &,
+    .impress-on-overview & {
+        display: none;
+    }
+
+    span {
+        display: block;
+    }
+
+    .symbol {
+        font-size: 216px;
+        line-height: 180px;
+        margin-bottom: 18px;
+    }
+
+    .and {
+        font-size: 24px;
+        margin: 24px 0;
+    }
+
+    .last {
+        font-size: 90px;
+    }
+}
