@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<title>Web Components - Demo 1</title>
+<script type="text/javascript" src="js/mutation_summary.js"></script>
+
+<template id="oracle-card-template">
+    <style>
+        .card {
+            border: 10px solid black;
+            border-radius: 8px;
+            width: 315px; /* 63mm */
+            height: 440px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            font-size: 17.5px;
+            background: #EEE;
+        }
+
+        .header,
+        .illustration,
+        .typeline,
+        .rulesbox,
+        .ptl {
+            border-width: 3px;
+            border-color: #DDD;
+            border-style: solid;
+            box-shadow: inset 0 0 1px 1px #666, -2px 2px 2px black;
+            position: relative;
+            background: #F0F0F0;
+        }
+        .rulesbox {
+            box-shadow: inset -2px 2px 1px #666, -2px 2px 2px black;
+        }
+
+        .header,
+        .typeline {
+            border-radius: 6px/12px;
+            margin: 0 5px;
+            padding: 1px 6px;
+            line-height: 130%;
+            font-weight: bold;
+        }
+
+        .header {
+            margin-top: 8px;
+            font-size: 1.1em;
+            display: flex;
+        }
+
+        .header content::-webkit-distributed(name) {
+            flex: auto;
+        }
+        .header content::-webkit-distributed(cost) {
+            flex: 0 0 auto;
+        }
+
+        .typeline {
+            font-size: 0.9em;
+        }
+
+        .illustration,
+        .rulesbox {
+            margin: 0 10px;
+            border-top-style: none;
+            box-sizing: border-box;
+        }
+
+        .illustration {
+            flex: 18;
+            border-bottom-style: none;
+            overflow: hidden;
+        }
+        .illustration::after {
+            content: " ";
+            position: absolute;
+            left: 0; top: 0;
+            right: 0; bottom: 0;
+            box-shadow: inset 0 0 1px 1px black;
+        }
+
+        .illustration content::-webkit-distributed(img) {
+            width: 100%;
+        }
+
+        .rulesbox {
+            flex: 13;
+            margin-bottom: 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        .rulesbox .rules,
+        .rulesbox .flavor {
+            flex: 0 0 auto;
+        }
+        .rulesbox content::-webkit-distributed(rule),
+        .rulesbox content::-webkit-distributed(flavor) {
+            display: block;
+            margin: 2px 8px;
+        }
+        .rulesbox content::-webkit-distributed(flavor) {
+            font-size: 16px;
+            font-style: italic;
+        }
+
+        content::-webkit-distributed(types + subtypes::before) {
+            content: " — ";
+        }
+
+        .ptl {
+            position: absolute;
+            right: 0; top: 100%;
+            margin-top: -6px;
+            margin-right: -6px;
+            font-size: 18px;
+            line-height: 22px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-color: transparent !important;
+            border-radius: 11px/20px;
+            text-align: center;
+            width: 3em;
+            box-shadow: inset -2px 2px 1px rgba(0, 0, 0, .4),
+                inset 2px -2px 1px rgba(255, 255, 255, .5),
+                -1px 3px 5px rgba(0, 0, 0, .4),
+                0 0 1px 1px rgba(0, 0, 0, .15);
+        }
+
+        /* Colors */
+        .card.white {
+            background: #F4ECE1;
+        }
+        .card.white .header,
+        .card.white .illustration,
+        .card.white .typeline,
+        .card.white .rulesbox,
+        .card.white .ptl {
+            background: #F5F4EF;
+            border-color: #F5F4EF;
+        }
+
+        .card.green {
+            background: #697F4E;
+        }
+        .card.green .header,
+        .card.green .illustration,
+        .card.green .typeline,
+        .card.green .rulesbox,
+        .card.green .ptl {
+            background: #BFC4B0;
+            border-color: #246A38;
+        }
+
+        .card.red {
+            background: #BC483B;
+        }
+        .card.red .header,
+        .card.red .illustration,
+        .card.red .typeline,
+        .card.red .rulesbox,
+        .card.red .ptl {
+            background: #DBAF96;
+            border-color: #B71E18;
+        }
+        .card.red .rulesbox,
+        .card.red .ptl {
+            background: #E0CEC4;
+        }
+    </style>
+    <div class="card">
+        <div class="header">
+            <content select="name"></content>
+            <content select="cost"></content>
+        </div>
+        <div class="illustration">
+            <content select="img.illustration"></content>
+        </div>
+        <div class="typeline">
+            <content select="types"></content>
+            <content select="subtypes"></content>
+        </div>
+        <div class="rulesbox">
+            <div class="rules"><content select="rules"></content></div>
+            <div class="ptl"><content select="ptl"></content></div>
+            <div class="flavor"><content select="flavor"></content></div>
+        </div>
+    </div>
+</template>
+
+<script>
+(function () {
+    var COLORS = {
+        'W': 'white',
+        'G': 'green',
+        'R': 'red'
+    };
+    var proto = Object.create(HTMLElement.prototype, {
+        bellsAndWhistles: {
+            value: function () {
+                // assign card color as class
+                var colorMatch = this.querySelector('cost').textContent.match(/[WGR]/);
+                if (colorMatch) {
+                    this.shadowRoot.querySelector('.card').className = 'card ' + COLORS[colorMatch[0]];
+                }
+
+                // hide empty elements
+                Array.prototype.forEach.call(this.shadowRoot.querySelectorAll('.rulesbox > *'), function (el) {
+                    if (el.firstChild.getDistributedNodes().length > 0) {
+                        el.style.display = '';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                });
+            }
+        },
+        createdCallback: {
+            value: function () {
+                var self = this;
+
+                // Create the shadow DOM
+                var t = document.querySelector('#oracle-card-template');
+                this.shadowRoot = this.createShadowRoot();
+                this.shadowRoot.appendChild(t.content.cloneNode(true));
+
+                // Add mutation observers 
+                var summary = new MutationSummary({
+                    callback: function () {
+                        console.log('MUTATION!!!');
+                        self.bellsAndWhistles();
+                    },
+                    rootNode: this,
+                    queries: [
+                        { all: true }
+                    ]
+                });
+
+                // Initialize
+                this.bellsAndWhistles();
+            }
+        }
+    });
+    document.register('oracle-card', { prototype: proto });
+}());
+</script>
+
+<style>
+    oracle-card {
+        display: inline-block;
+        margin: 5px;
+    }
+</style>
+
+<!-- TODO: Style mana cost -->
+<oracle-card>
+    <name>Pacifism</name>
+    <cost>1W</cost>
+    <img class="illustration" src="img/Pacifism.jpg" alt="" />
+    <types>Enchantment</types>
+    <subtypes>Aura</subtypes>
+    <rules>
+        <rule><shorthand>Enchant creature</shorthand></rule>
+        <rule>Enchanted creature can't attack or block.</rule>
+    </rules>
+    <flavor>For the first time in his life, Grakk felt a little warm and fuzzy inside.</flavor>
+</oracle-card>
+
+<oracle-card style="display: none;">
+    <name>Runeclaw Bear</name>
+    <cost>1G</cost>
+    <img class="illustration" src="img/Runeclaw Bear.jpg" alt="" />
+    <types>Creature</types>
+    <subtypes>Bear</subtypes>
+    <ptl>2/2</ptl>
+    <flavor>The only honey it wants is the sweet nectar flowing through your veins.</flavor>
+</oracle-card>
+
+<oracle-card style="display: none;">
+    <name>Lightning Bolt</name>
+    <cost>R</cost>
+    <img class="illustration" src="img/Lightning Bolt.jpg" alt="" />
+    <types>Instant</types>
+    <rules>
+        <rule>Lightning Bolt deals 3 damage to target creature or player.</rule>
+    </rules>
+</oracle-card>

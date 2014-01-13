@@ -1,0 +1,411 @@
+<article id="impress" data-width="1200" data-height="800" data-perspective="500" data-transition-duration="667">
+
+    <section id="codecamp" class="step slide" data-x="-27000" data-y="-3000">
+        <img class="codecamp-logo" src="assets/codecamp-logo-on-white.png" alt="CodeCamp" />
+        <img class="codecamp-sponsors" src="assets/codecamp-sponsors.png" alt="CodeCamp Sponsors" />
+    </section>
+
+    <section id="title-and-author" class="step slide" data-x="3000" data-y="-3600" data-scale="10" data-rotate-x="-30">
+        <h1>The Shadow DOM<br><small>(A talk about Web Components)</small></h1>
+        <p class="author">Mihai Bîrsan</p>
+        <p class="date">October 2013</p>
+<pre class="for-notes-only">
+<!-- TODO -->
+</pre>
+    </section>
+    
+    <section id="overview-start" class="step step-overview" data-x="3000" data-y="3600" data-scale="12" data-transition-duration="1000">
+<pre class="for-notes-only">
+Why would one ever need Mutation Observers
+
+What are they
+
+How are they used in practice
+
+When should they be used
+
+Where can they be used
+<!-- TODO: Do polyfills exist? -->
+
+Who can start using them right away
+</pre>
+    </section>
+
+<!-- why -->
+    <section id="why" class="step chapter left" data-x="3500" data-y="0" data-scale="6" data-rotate="-15">
+        <h2>Why</h2>
+        <p class="teaser">problems we're trying to solve</p>
+        <p class="recap">Because <code>onload</code> won’t cut it anymore</p>
+    </section>
+
+    <section class="step step-chapter-why step-subslide" data-x="6300" data-y="800" data-scale="5" data-rotate="-15">
+        <h3>Application Improvements</h3>
+        <p>Third party applications</p>
+<pre class="for-notes-only">
+• Bundle up your plug-in JS file
+• Potentially legacy applications
+• ...and if you can't ship with the application...
+</pre>
+    </section>
+
+    <section class="step step-chapter-why step-subslide" data-x="6300" data-y="800" data-scale="5" data-rotate="-15">
+        <h3>Userscripts</h3>
+        <p>Greasemonkey</p>
+        <p>Tampermonkey</p>
+<pre class="for-notes-only">
+Mention EnvImprovementNinjas, and the wiki
+</pre>
+<!-- TODO: Research - is there any published userscript using Mutation Observers? -->
+    </section>
+
+    <section class="step step-chapter-why step-focusslide" data-x="6300" data-y="900" data-scale="3" data-rotate="-15">
+        <a>SaveTube</a>
+    </section>
+
+    <section class="step step-chapter-why step-focusslide" data-x="6300" data-y="900" data-scale="3" data-rotate="-15">
+        <a>Facebook Tycoons Harvester</a>
+    </section>
+
+    <section class="step step-chapter-why step-focusslide" data-x="6300" data-y="900" data-scale="3" data-rotate="-15">
+        <a>ttFrobulator</a>
+<pre class="for-notes-only">
+Adds many new features to the Remedy tt.amazon.com web client
+</pre>
+    </section>
+
+    <section class="step step-chapter-why step-focusslide" data-x="6300" data-y="900" data-scale="3" data-rotate="-15">
+        <a>Add job info to phone tool</a>
+<pre class="for-notes-only">
+You'll never look at connect.amazon.com the same way again :)
+</pre>
+    </section>
+
+    <section class="step step-chapter-why step-subslide" data-x="6300" data-y="800" data-scale="5" data-rotate="-15">
+        <h3>Using <code>onload</code> used to be enough</h3>
+        <p>Not for Single Page Applications</p>
+    </section>
+
+<!-- what -->
+    <section id="what" class="step chapter right" data-x="2500" data-y="1200" data-scale="6" data-rotate="15">
+        <h2>What</h2>
+        <p class="teaser">best way to solve this kind of problems</p>
+        <p class="recap">Observe a log of<br />DOM mutations</p>
+    </section>
+
+    <section class="step step-chapter-what step-subslide" data-x="-2000" data-y="1600" data-scale="5" data-rotate="15">
+        <h3>Peeking for changes</h3>
+        <p>We'll refer to DOM changes as Mutations</p>
+<pre class="for-notes-only">
+instead of executing our script changes once
+
+we can instead look out for changes in the DOM
+
+and react to them
+</pre>
+    </section>
+
+    <section class="step step-chapter-what step-subslide" data-x="-2000" data-y="1600" data-scale="5" data-rotate="15">
+        <h3>DOM Level 3 mutation events</h3>
+        <p>Performance issues</p>
+<pre class="for-notes-only">
+developed by the W3C to resemble existing DOM concepts
+
+an event's life: capture, target, bubble
+
+In practice, the DOM suffers multiple changes part of a large application.
+</pre>
+    </section>
+
+    <section class="step step-chapter-what step-subslide" data-x="-2000" data-y="1600" data-scale="5" data-rotate="15">
+        <h3>MutationObserver objects</h3>
+        <p>Subscribe to specific parts of the DOM and specific types of changes</p>
+    </section>
+
+    <section class="step step-chapter-what step-subslide" data-x="-2000" data-y="1600" data-scale="5" data-rotate="15">
+        <h3>MutationObserver objects</h3>
+        <p>Calls back with a log of all the things that changed since last call, in chronological order</p>
+    </section>
+
+    <section class="step step-chapter-what step-focusslide" data-x="-2000" data-y="1700" data-scale="3" data-rotate="15">
+        <h3>MutationObserver objects</h3>
+        <pre class="prettyprint">
+// select the target node
+var target = document.querySelector('#some-id');
+ 
+// create an observer instance
+var observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    console.log(mutation.type);
+  });
+});
+ 
+// configuration of the observer:
+var config = { attributes: true, childList: true };
+ 
+// pass in the target node, as well as the observer options
+observer.observe(target, config);
+ 
+// later, you can stop observing
+observer.disconnect();
+        </pre>
+    </section>
+
+<!-- how -->
+    <section id="how" class="step chapter left" data-x="3500" data-y="2400" data-scale="6" data-rotate="-5">
+        <h2>How</h2>
+        <p class="teaser">how to be clever about it</p>
+        <p class="recap">MutationSummary for simplicity</p>
+    </section>
+
+    <section class="step step-chapter-how step-subslide" data-x="6120" data-y="3720" data-scale="5" data-rotate="-5">
+        <h3>MutationSummary objects</h3>
+        <p>Because you don’t usually need the log</p>
+<pre class="for-notes-only">
+As it turns out, and you'll probably notice this quickly as you'll start working with Mutation Observers
+
+it is impractical to pass-through a full DOM log all the time. Sometimes what you want is only the gist of the changes.
+
+This is where MutationSummary excels.
+</pre>
+    </section>
+
+    <section class="step step-chapter-how step-focusslide" data-x="6120" data-y="3820" data-scale="3" data-rotate="-5">
+        <h3>MutationSummary objects</h3>
+        <pre class="prettyprint">
+var observer = new MutationSummary({
+  callback: handleChanges, // required
+  rootNode: myDiv, // optional, defaults to window.document
+  observeOwnChanges: // optional, defaults to false
+  queries: [
+    { /* query1 */ }, // attribute, element, caracterData
+    { /* query2 */ }, // or all
+      // …
+    { /* queryN */ }
+  ]
+});
+ 
+// If/when change report callbacks are no longer desired
+var summaries = observer.disconnect();
+if (summaries)
+  handleChangesUpToHere(summaries);
+        </pre>
+<!-- TODO: Add slides about what a query looks like and what a summary looks like. -->
+    </section>
+
+    <section class="step step-chapter-how step-subslide" data-x="6120" data-y="3720" data-scale="5" data-rotate="-5">
+        <h3>DOM shuffle comparison</h3>
+        <ul>
+            <li><code>ul</code> element contains a number of <code>li</code> elements</li>
+            <li>An operation on the <code>ul</code> means removing a child <code>li</code> element and inserting it back at a random position</li>
+            <li>This is performed 1000 times</li>
+        </ul>
+    </section>
+
+    <section class="step step-chapter-how step-focusslide" data-x="6120" data-y="3820" data-scale="3" data-rotate="-5">
+        <h3>DOM shuffle comparison: Code</h3>
+        <pre class="prettyprint">
+var deck = document.querySelector('#deck');
+_(1000).times(function () {
+
+    // pick a card, any card
+    var i = Math.floor(Math.random() * deck.children.length);
+    var card = deck.children[i];
+    card.remove();
+
+    // pick a new position for the card and insert it
+    i = Math.floor(Math.random() * (deck.children.length + 1));
+    deck.insertBefore(card, deck.children[i]);
+});
+        </pre>
+    </section>
+
+    <section class="step step-chapter-how step-focusslide" data-x="6120" data-y="3820" data-scale="3" data-rotate="-5">
+        <h3>DOM shuffle comparison: Live</h3>
+        <iframe width="1060" height="530" src="demo-1.html"></iframe>
+    </section>
+
+<!-- when -->
+    <section id="when" class="step chapter right" data-x="2700" data-y="3600" data-scale="6" data-rotate="10">
+        <h2>When</h2>
+        <p class="teaser">a brief look at some use-cases</p>
+        <p class="recap">
+            Basically: user scripts &amp; contenteditable
+        </p>
+    </section>
+
+    <section class="step step-chapter-when step-subslide" data-x="-2000" data-y="4600" data-scale="5" data-rotate="10">
+        <h3>Add functionality</h3>
+        <p>to an application over which you have no control</p>
+        <ul>
+            <li>Userscripts</li>
+            <li>Browser extensions</li>
+        </ul>
+    </section>
+
+    <section class="step step-chapter-when step-subslide" data-x="-2000" data-y="4600" data-scale="5" data-rotate="10">
+        <h3>Working with contenteditable</h3>
+        <p>On the fly formatting</p>
+    </section>
+
+    <section class="step step-chapter-when step-subslide" data-x="-2000" data-y="4600" data-scale="5" data-rotate="10">
+        <h3>Data binding with the DOM</h3>
+        <p>Not everyone needs a pub-sub, sometimes you can keep it simple</p>
+    </section>
+
+    <section class="step step-chapter-when step-subslide" data-x="-2000" data-y="4600" data-scale="5" data-rotate="10">
+        <h3>Integrating independent widgets</h3>
+        <p>Change-driven application</p>
+    </section>
+
+    <section class="step step-chapter-when step-subslide" data-x="-2000" data-y="4600" data-scale="5" data-rotate="10">
+        <h3>Drag &amp; Drop Demo</h3>
+        <ul>
+            <li>One team develops a<br/> drag &amp; drop plugin</li>
+            <li>The other develops the target plugin</li>
+        </ul>
+    </section>
+
+    <section class="step step-chapter-when step-focusslide" data-x="-2000" data-y="4700" data-scale="3" data-rotate="10">
+        <h3>Drag &amp; Drop Demo</h3>
+        <iframe width="1060" height="530" src="demo-2.html"></iframe>
+    </section>
+
+<!-- where -->
+    <section id="where" class="step chapter left" data-x="3300" data-y="4000" data-scale="6" data-rotate="10">
+        <h2>Where</h2>
+        <p class="teaser">spotting in the wild</p>
+        <p class="recap">Chrome, Firefox, Safari</p>
+    </section>
+
+    <section id="browsers" class="step step-chapter-where step-subslide" data-x="5450" data-y="5950" data-scale="5" data-rotate="10">
+        <h3>Browsers</h3>
+        <img src="assets/Chrome-logo.svg" alt="Chrome" class="browser-logo" />
+        <img src="assets/Firefox-logo.svg" alt="Firefox" class="browser-logo" />
+        <img src="assets/Apple-Safari-logo.png" alt="Safari" class="browser-logo" />
+    </section>
+
+    <section class="step step-chapter-where step-subslide" data-x="5450" data-y="5950" data-scale="5" data-rotate="10">
+        <h3>Bleeding edge alert!</h3>
+        <p>Don't use in production yet.</p>
+        <p>If you do, make sure you add a polyfill</p>
+    </section>
+
+<!-- who -->
+    <section id="who" class="step chapter right" data-x="2500" data-y="6000" data-scale="6" data-rotate="5">
+        <h2>Who</h2>
+        <p class="teaser">intended audiece</p>
+        <p class="recap">Developers and Ninjas alike</p>
+    </section>
+
+    <section class="step step-chapter-who step-subslide" data-x="-1900" data-y="7100" data-scale="5" data-rotate="5">
+        <h3>Ninjas</h3>
+        <p><small>What's a ninja?</small></p>
+<pre class="for-notes-only">
+If you're not familiar with EnvImprovements Ninjas you're missing out.
+
+Plug Sam Rosshoff's Workshop on Friday 21st (Blackfoot 10.100)
+</pre>
+    </section>
+
+    <section class="step step-chapter-who step-subslide" data-x="-1900" data-y="7100" data-scale="5" data-rotate="5">
+        <h3>Ninjas</h3>
+        <p>Improve web apps, add features</p>
+    </section>
+
+    <section class="step step-chapter-who step-subslide" data-x="-1900" data-y="7100" data-scale="5" data-rotate="5">
+        <h3>Ninjas</h3>
+        <p>APIs not available? Count on the DOM!</p>
+        <ul>
+            <li>Good DOM has all the data you need</li>
+            <li>Bad DOM has hints about the data you need</li>
+        </ul>
+    </section>
+
+    <section class="step step-chapter-who step-subslide" data-x="-1900" data-y="7100" data-scale="5" data-rotate="5">
+        <h3>Developers</h3>
+        <p><small>So... everyone!</small></p>
+    </section>
+
+    <section class="step step-chapter-who step-subslide" data-x="-1900" data-y="7100" data-scale="5" data-rotate="5">
+        <h3>Developers</h3>
+        <p>Use the DOM as your model,<br />where it makes sense.</p>
+        <ul>
+            <li>This will make sense when you get into Web Components</li>
+        </ul>
+<pre class="for-notes-only">
+This subject is rather controvertial
+
+Let's talk about it afterwards!
+</pre>
+    </section>
+
+    <section class="step step-chapter-who step-subslide" data-x="-1900" data-y="7100" data-scale="5" data-rotate="5">
+        <h3>Developers</h3>
+        <p>Plan for hackability</p>
+        <ul>
+            <li>Add significant <code>data-*</code> attributes</li>
+            <li>Use micro formats</li>
+        </ul>
+<pre class="for-notes-only">
+Mention the good experience we've had with hacking IMDB
+• all the necessary data was in the DOM
+</pre>
+    </section>
+
+<!-- demo -->
+    <section id="demo" class="step chapter top" data-x="3000" data-y="7200" data-scale="6">
+        <h2>Demo</h2>
+    </section>
+
+    <section class="step step-chapter-demo step-subslide" data-x="3000" data-y="9000" data-scale="5">
+        <img src="assets/google-tasks-z-before.png" alt="" />
+    </section>
+
+    <section class="step step-chapter-demo step-subslide" data-x="3000" data-y="9000" data-scale="5">
+        <img src="assets/google-tasks-z-improved.png" alt="" />
+<pre class="for-notes-only">
+• Live demo
+• Show the Mutation Summary implementation
+• The code will be available along with the slides and other demos
+</pre>
+    </section>
+
+<!-- ending -->
+    <section id="overview-end" class="step step-overview" data-x="3000" data-y="3600" data-scale="12">
+<pre class="for-notes-only">
+Because we're no longer dealing with just web apps that refresh
+
+we're tracking DOM mutations
+
+using MutationSummary 
+
+to write userscripts and browser extensions
+
+in Chrome, Firefox and Safari.
+</pre>
+    </section>
+
+    <section id="q-n-a" class="step" data-x="3000" data-y="20000">
+        <h2>Questions and Answers</h2>
+    </section>
+
+    <section id="coming-next" class="step" data-x="3000" data-y="21500">
+        <h2>Coming up next</h2>
+        <div class="prez">
+            <h3>Mutation Observers</h3>
+            <p>The ability to watch the DOM</p>
+        </div>
+        <div class="prez">
+            <h3>Web Components</h3>
+            <p>The ability to dress the DOM</p>
+        </div>
+    </section>
+
+    <section id="thank-you" class="step" data-x="3000" data-y="23000">
+        <span class="symbol">✌</span>
+        <span class="first">Thank You</span>
+        <span class="and">and</span>
+        <span class="last">Fill Your Feedback Forms</span>
+    </section>
+
+</article>

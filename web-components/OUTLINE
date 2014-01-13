@@ -1,0 +1,58 @@
+
+<!-- The Shadow DOM tree -->
+<div class="tweet-widget">
+  <div class="left-column">
+    <content select="img.profile-picture"></content>
+  </div>
+  <div class="right-column"><content></content></div>
+  <div class="tools">
+    <button class="btn-reply">Reply</button>
+    <button class="btn-retweet">Retweet</button>
+    <button class="btn-fav">Favorite</button>
+    <button class="btn-more">More...</button>
+  </div>
+</div>
+
+<!-- The main DOM tree -->
+<div class="tweet">
+  ▶#document-fragment
+  <img class="profile-picture" src="https://si0.twimg.com/profile_images/2996456104/b707959f192bba5c31c07058f91a183b_normal.png" alt="" />
+  <a class="author" href="https://twitter.com/SoVeryBritish">VeryBritishProblems <small class="shorthand">@SoVeryBritish</small></a>
+  <p class="tweet-content">Watching with quiet sorrow as you receive a different haircut to the one you requested</p>
+  <a class="time-ago" href="https://twitter.com/SoVeryBritish/status/387912080327974912">1h</a>
+</div>
+
+<template id="tweet-template">
+  <div class="tweet">
+    <img class="profile-picture" src="" alt="" />
+    <a class="author" href=""> <small class="shorthand"></small></a>
+    <p class="tweet-content"></p>
+    <a class="time-ago" href=""></a>
+  </div>
+</template>
+
+var t = document.querySelector('#tweet-template');
+tweets.forEach(function (myTweet) {
+    var tweetNode = t.content.cloneNode(true);
+    populateNode(tweetNode, myTweet);
+    document.body.appendChild(tweetNode);
+});
+
+createdCallback an instance of the element is created
+enteredViewCallback an instance was inserted into the document
+leftViewCallback    an instance was removed from the document
+attributeChangedCallback(attrName, oldVal, newVal)  an attribute was added, removed, or updated
+
+createdCallback: {
+    value: function () {
+        // Create the shadow DOM
+        var t = document.querySelector('#oracle-card-template');
+        this.shadowRoot = this.createShadowRoot();
+        this.shadowRoot.appendChild(t.content.cloneNode(true));
+    }
+}
+
+
+
+
+  guifont=DejaVu_Sans_Mono:h10:cANSI
